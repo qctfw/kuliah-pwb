@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UTS PWB</title>
+</head>
+
+<body>
+  <h1>NUSANTARA COMPUTER CENTER</h1>
+  <form id="form-register" method="post">
+    <table>
+      <tr>
+        <td>Nama</td>
+        <td>:</td>
+        <td><input type="text" name="name" required="required" /></td>
+      </tr>
+      <tr>
+        <td>Kode Pendaftaran</td>
+        <td>:</td>
+        <td>
+          <select name="code" required="required">
+            <option value=""></option>
+            <option value="VBSK00108">VBSK00108</option>
+            <option value="DPSJ00210">DPSJ00210</option>
+            <option value="LXSM10105">LXSM10105</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Kelas</td>
+        <td>:</td>
+        <td>
+          <select name="class" required="required">
+            <option value=""></option>
+            <option value="Reguler">Reguler</option>
+            <option value="Private">Private</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Jumlah Pertemuan</td>
+        <td>:</td>
+        <td><input type="number" name="attendances" required="required" /></td>
+      </tr>
+      <tr>
+        <td>Jumlah Peserta</td>
+        <td>:</td>
+        <td><input type="number" name="participants" required="required" /></td>
+      </tr>
+      <tr>
+        <td>Hasil Test Awal</td>
+        <td>:</td>
+        <td>
+          <select name="grade" required="required">
+            <option value=""></option>
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><button type="submit">Proses</button></td>
+        <td></td>
+        <td><button type="reset">Ulang</button></td>
+      </tr>
+    </table>
+  </form>
+  <hr />
+  <div id="output-form" style="display: none;">
+    <h2>NUSANTARA COMPUTER CENTER</h2>
+    <h3>Kode Pendaftaran : <span id="output-code"></span></h3>
+    <table>
+      <tr>
+        <td>Nama</td>
+        <td>:</td>
+        <td id="output-name"></td>
+      </tr>
+      <tr>
+        <td>Kelas</td>
+        <td>:</td>
+        <td id="output-class"></td>
+      </tr>
+      <tr>
+        <td>Hasil Test Awal</td>
+        <td>:</td>
+        <td id="output-grade"></td>
+      </tr>
+      <tr>
+        <td>Jumlah Peserta</td>
+        <td>:</td>
+        <td><span id="output-participants"></span> orang</td>
+      </tr>
+      <tr>
+        <td>Biaya Kursus</td>
+        <td>:</td>
+        <td id="output-course-price"></td>
+      </tr>
+      <tr>
+        <td>Biaya Subsidi</td>
+        <td>:</td>
+        <td id="output-allowance"></td>
+      </tr>
+      <tr>
+        <td>Jenis Kursus</td>
+        <td>:</td>
+        <td id="output-course"></td>
+      </tr>
+      <tr>
+        <td>Nomor Urut</td>
+        <td>:</td>
+        <td id="output-order-number"></td>
+      </tr>
+      <tr>
+        <td>Hari</td>
+        <td>:</td>
+        <td id="output-day"></td>
+      </tr>
+      <tr>
+        <td>Jumlah Pertemuan</td>
+        <td>:</td>
+        <td><span id="output-attendances"></span> kali</td>
+      </tr>
+      <tr>
+        <td>Biaya Tambahan</td>
+        <td>:</td>
+        <td id="output-additional-cost"></td>
+      </tr>
+      <tr>
+        <td>Biaya Yang Dibayar</td>
+        <td>:</td>
+        <td id="output-total"></td>
+      </tr>
+    </table>
+  </div>
+  <script>
+    function getAllowance(grade, price) {
+      const grades = {
+        "a": 0.05,
+        "b": 0.02,
+        "c": 0
+      };
+
+      return price * grades[grade];
+    }
+
+    function getCourse(code) {
+      code = code.substring(0, 2);
+      const courses = {
+        "VB": {
+          name: "Visual Basic",
+          type: "Pemrograman",
+          price: 750000
+        },
+        "DP": {
+          name: "Delphi",
+          type: "Pemrograman",
+          price: 650000
+        },
+        "LX": {
+          name: "Linux",
+          type: "Sistem Operasi",
+          price: 800000
+        }
+      };
+
+      return courses[code];
+    }
+
+    function getDay(code) {
+      code = code.charAt(3).toLowerCase();
+      if (code == 'k') return 'Kamis';
+      if (code == 'j') return 'Jum\'at';
+      if (code == 'm') return 'Minggu';
+    }
+
+    function getOrderNumber(code) {
+      return code.substring(4, 7);
+    }
+
+    function getAdditionalCost(classcourse, participants) {
+      classcourse = classcourse.toLowerCase();
+      let additionalCost = 0;
+
+      if (classcourse === 'reguler') {
+        if (participants > 5) {
+          additionalCost = 75000;
+        } else {
+          additionalCost = 200000;
+        }
+      } else if (classcourse === 'private' && participants < 10) {
+        additionalCost = 50000;
+      }
+
+      return additionalCost * participants;
+    }
+
+    function setOutput(datas) {
+      document.getElementById('output-code').innerText = datas['code'];
+      document.getElementById('output-name').innerText = datas['name'];
+      document.getElementById('output-class').innerText = datas['course']['name'];
+      document.getElementById('output-grade').innerText = datas['grade'].toUpperCase();
+      document.getElementById('output-participants').innerText = datas['participants'];
+      document.getElementById('output-course-price').innerText = datas['course']['price'];
+      document.getElementById('output-allowance').innerText = datas['allowance'];
+      document.getElementById('output-course').innerText = datas['course']['type'];
+      document.getElementById('output-order-number').innerText = datas['order-number'];
+      document.getElementById('output-day').innerText = datas['day'];
+      document.getElementById('output-attendances').innerText = datas['attendances'];
+      document.getElementById('output-additional-cost').innerText = datas['additional-cost'];
+      document.getElementById('output-total').innerText = datas['total'];
+    }
+
+    document.getElementById('form-register').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      document.getElementById('output-form').style.display = 'none';
+
+      const formData = new FormData(this);
+
+      let datas = [];
+
+      for (var pair of formData.entries()) {
+        datas[pair[0]] = pair[1];
+      }
+
+      datas['course'] = getCourse(datas['code']);
+      datas['day'] = getDay(datas['code']);
+      datas['allowance'] = getAllowance(datas['grade'], datas['course']['price']);
+      datas['order-number'] = getOrderNumber(datas['code']);
+      datas['additional-cost'] = getAdditionalCost(datas['class'], datas['participants']);
+      datas['total'] = (datas['course']['price'] * datas['attendances']) - datas['allowance'] + datas['additional-cost'];
+
+      setOutput(datas);
+      document.getElementById('output-form').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
