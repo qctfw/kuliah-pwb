@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kalkulator</title>
+</head>
+<body>
+    <table align="center">
+        <tr>
+            <td><center>Nilai I</center></td>
+            <td></td>
+            <td><center>Nilai II</center></td>
+        </tr>
+        <tr>
+            <td><input type="number" name="n1" /></td>
+            <td>
+                <center>
+                    <select name="operator">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">&Cross;</option>
+                        <option value="/">/</option>
+                    </select>
+                </center>
+            </td>
+            <td><input type="number" name="n2" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" id="btn-calc">Submit</button></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3"><center><span id="txt-result">0</span></center></td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        document.querySelector('[name="n1"]').focus();
+
+        document.getElementById('btn-calc').addEventListener('click', function (e) {
+            let n1 = parseInt(document.querySelector('[name="n1"]').value);
+            let n2 = parseInt(document.querySelector('[name="n2"]').value);
+            let res = 0;
+
+            switch (document.querySelector('[name="operator"]').value) {
+                case '+':
+                    res = n1 + n2;
+                    break;
+                case '-':
+                    res = n1 - n2;
+                    break;
+                case '*':
+                    res = n1 * n2;
+                    break;
+                case '/':
+                    res = (n2 != 0) ? n1 / n2 : 'Tidak Valid';
+                    break;
+                default:
+                    res = 0;
+                    break;
+            }
+
+            document.getElementById('txt-result').textContent = res;
+        });
+    </script>
+</body>
+</html>
