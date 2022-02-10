@@ -7,5 +7,6 @@ Repository ini adalah repository untuk menyimpan tugas kuliah saya.
 - Tugas 3 (Branch `tugas-03`) ([Pertemuan 4](Pertemuan4/), [Pertemuan 5](Pertemuan5/))
 - Tugas 4 (Branch `tugas-04`) ([Pertemuan 6](Pertemuan6/))
 - Tugas 5 (Branch `tugas-05`) ([Pertemuan 8](Pertemuan8/), [Pertemuan 9](Pertemuan9/))
+- Tugas 6 (Branch `tugas-06`) ([Pertemuan 10](Pertemuan10/), [Pertemuan 11](Pertemuan11/))
 
 Note: Pertemuan 7 tidak ada tugas.
